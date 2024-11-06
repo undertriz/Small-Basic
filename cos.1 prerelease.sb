@@ -1,0 +1,632 @@
+'configuration wizard default options
+corecuser="rich" 'the correct username the OSE should use
+corecpass="zxy1001" 'the correct password for the username above
+loader="cos built-in loader" 'the loader the OSE should use
+TextWindow.BackgroundColor="darkblue" 'the config window color
+modemnoisesuccess="C:\Users\rich\Downloads\dial-up-modem-01.mp3" 'the noise it produces when a modem is dialed and successfully connects
+startupsound="C:\Users\rich\Music\Windows Sound Effects\Windows Print complete.wav" ' the noise it produces when the OSE completes the boot process
+operationoise="" 'the noise when it completes an operation
+'-----------------------------------------------------------------------------------
+'advanced options
+configscreen=0 'if the OSE should show the CW
+login=0 'if the OSE should run the login sequence
+bootsequence=1 'if the OSE should run the boot sequence
+dialmodem=0 'if the OSE should run the dial modem sequence within boot (default=0)
+promptlogo=">" 'the call sign for the OSE (example: > or C:\ )
+'-----------------------------------------------------------------------------------
+'do not tamper with the following below
+initprob=math.GetRandomNumber(1000 )
+esenprob=Math.GetRandomNumber(1000)
+originalitycode=Math.GetRandomNumber(1000000)
+commandpromptcont=1
+debugmode=0
+While configscreen=1
+  configscreen:
+  TextWindow.Clear()
+  TextWindow.WriteLine("")
+  Program.Delay(100)
+  TextWindow.WriteLine("            CCCCCCCCCCCCCCCC         OOOOOOOOOOOOOOOOOOO          SSSSSSSSSSSSSSSSSS          1111")
+  Program.Delay(100)
+  TextWindow.WriteLine("            CCCCCCCCCCCCCCCC         OOOOOOOOOOOOOOOOOOO          SSSSSSSSSSSSSSSSSS          1111")
+  Program.Delay(100)
+  TextWindow.WriteLine("            CCCC                     OOOO           OOOO          SSSS                        1111")
+  Program.Delay(100)
+  TextWindow.WriteLine("            CCCC                     OOOO           OOOO          SSSS                        1111")
+  Program.Delay(100)
+  TextWindow.WriteLine("            CCCC                     OOOO           OOOO          SSSSSSSSSSSSSSSSSS          1111")
+  Program.Delay(100)
+  TextWindow.WriteLine("            CCCC                     OOOO           OOOO                        SSSS          1111")
+  Program.Delay(100)
+  TextWindow.WriteLine("            CCCC                     OOOO           OOOO                        SSSS   ....   1111")
+  Program.Delay(100)
+  TextWindow.WriteLine("            CCCCCCCCCCCCCCCC         OOOOOOOOOOOOOOOOOOO          SSSSSSSSSSSSSSSSSS   ....   1111")
+  Program.Delay(100)
+  TextWindow.WriteLine("            CCCCCCCCCCCCCCCC         OOOOOOOOOOOOOOOOOOO          SSSSSSSSSSSSSSSSSS   ....   1111")
+  Program.Delay(100)
+  TextWindow.WriteLine("                                                          Becfrey       Emulator       Small Basic")
+  TextWindow.WriteLine("            COS.1 Configuration Wizard")
+  TextWindow.WriteLine("")
+  TextWindow.WriteLine("            corecuser="+corecuser)
+  TextWindow.WriteLine("            corecpass="+corecpass)
+  TextWindow.WriteLine("            loader="+loader)
+  TextWindow.WriteLine("")
+  TextWindow.WriteLine("Please type the setting you want to change, otherwise type in 'confirm' to confirm the setting.")
+  For i = 1 To 10000
+    TextWindow.Write(promptlogo)
+    configprompt=textwindow.Read()
+    If configprompt="corecuser" Then
+      TextWindow.WriteLine("Current setting: "+corecuser)
+      TextWindow.WriteLine("Type in the desired value. To cancel, type the original input.")
+      TextWindow.Write(promptlogo)
+      corecuser=textwindow.Read()
+      TextWindow.WriteLine(corecuser+" Saved.")
+    ElseIf configprompt="corecpass" then
+      TextWindow.WriteLine("Current setting: "+corecpass)
+      TextWindow.WriteLine("Type in the desired value. To cancel, type the original input.")
+      TextWindow.Write(promptlogo)
+      corecpass=TextWindow.Read()
+      TextWindow.WriteLine(corecpass+" Saved.")
+    elseif configprompt="loader" then
+      TextWindow.WriteLine("Current setting: "+loader)
+      TextWindow.WriteLine("Type in the desired value. To cancel, type the original input.")
+      TextWindow.Write(promptlogo)
+      loader=textwindow.Read()
+      TextWindow.WriteLine(loader+" Saved.")
+    Elseif configprompt="confirm" then
+      Goto login
+    EndIf
+  EndFor
+EndWhile
+While login=1
+  login:
+  TextWindow.BackgroundColor="darkgreen"
+  TextWindow.Clear()
+  TextWindow.WriteLine("-LOGIN-")
+  TextWindow.WriteLine("Enter Username.")
+  TextWindow.Write(promptlogo)
+  user=textwindow.Read()
+  If user=corecuser Then
+    TextWindow.WriteLine("User chosen. ")
+  Else
+    TextWindow.Writeline("Incorrect user.")
+  EndIf
+  TextWindow.WriteLine("Enter Password to begin boot process (loader: "+loader+")")
+  TextWindow.Write(promptlogo)
+  password=Textwindow.Read()
+  If password=corecpass then
+    TextWindow.WriteLine("Correct password for user: "+corecuser+". Preparing for boot..")
+    Program.Delay(10000)
+    Goto boot
+  Else
+    TextWindow.WriteLine("Incorrect. Terminating Programs...")
+    Program.Delay(10000)
+    Program.End()
+  EndIf
+endwhile
+boot:
+
+While bootsequence=1
+  TextWindow.BackgroundColor="black"
+  TextWindow.Clear()
+  TextWindow.BackgroundColor="green"
+  TextWindow.WriteLine("COS.1 BPaD (Boot Process and Diagnostic)")
+  TextWindow.BackgroundColor="black"
+  TextWindow.WriteLine("INITIALISING "+(loader)+"...")
+  If initprob=1 Then
+    Program.Delay(1000)
+    TextWindow.BackgroundColor="darkred"
+    TextWindow.Clear()
+    Sound.Play("C:\Users\rich\Downloads\censor-beep-1sec-8112 (1).mp3")
+    TextWindow.WriteLine("COS BPaD Manager has experienced a problem.")
+    TextWindow.WriteLine("")
+    TextWindow.WriteLine(" |------------------|")
+    TextWindow.WriteLine(" |        /      B  |")
+    TextWindow.WriteLine(" |    X   |  M   A  |")
+    TextWindow.WriteLine(" |    X   |  Y   D  |")
+    TextWindow.WriteLine(" |        \      !  |")
+    TextWindow.WriteLine(" |------------------|")
+    TextWindow.WriteLine("  // Bob has died.")
+    TextWindow.WriteLine("")
+    TextWindow.WriteLine("Status:0xc000000f")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Info: An error occured during initialisation. ")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("If the problem persists, please contact your system administrator or computer manufacturer.")
+    TextWindow.WriteLine("Loader: "+(loader))
+    TextWindow.WriteLine(originalitycode)
+    TextWindow.WriteLine("")
+    TextWindow.WriteLine("BECFREY TECHNOLOGIES LTD.")
+    TextWindow.Writeline("You can use the console below, although most commands will not be functional in this state.")
+    For q = 1 To 1000
+      acknowledgement=TextWindow.Read()
+      If acknowledgement="Program.Directory" Then
+        progdir=Program.Directory
+        TextWindow.WriteLine(progdir)
+      elseif acknowledgement="Program.End" then
+        Program.End()
+      EndIf
+    EndFor
+  Else
+    Program.Delay(5000)
+  endif
+  If dialmodem=0 then
+    TextWindow.WriteLine("DIALING MODEM ON port 4576...")
+    Sound.Play(modemnoisesuccess)
+    Program.Delay(23500)
+    dialmodem=1
+  Else
+    TextWindow.WriteLine("Dial Modem has already occured.")
+  EndIf
+  Textwindow.WriteLine("RUNNING NETWORK SAFE SEARCH:")
+  Program.Delay(100)
+  TextWindow.WriteLine("home.int.........."+(Math.GetRandomNumber(100))+"%")
+  Program.Delay(100)
+  TextWindow.WriteLine("familyfun........."+(Math.GetRandomNumber(100))+"%")
+  Program.Delay(100)
+  TextWindow.WriteLine("shenanigans......."+(Math.GetRandomNumber(100))+"%")
+  Program.Delay(100)
+  TextWindow.Write("trtbl.int.........")
+  Program.Delay(100)
+  TextWindow.BackgroundColor="darkred"
+  TextWindow.Writeline("NOT VIABLE - POSSIBLE FRAUDULENT")
+  TextWindow.BackgroundColor="black"
+  Program.Delay(1000)
+  TextWindow.WriteLine("BEGINNING ESSENTIAL PROCESSES...")
+  TextWindow.WriteLine("")
+  Program.Delay(1000)
+  TextWindow.WriteLine("            CCCCCCCCCCCCCCCC         OOOOOOOOOOOOOOOOOOO          SSSSSSSSSSSSSSSSSS          1111")
+  Program.Delay(100)
+  TextWindow.WriteLine("            CCCCCCCCCCCCCCCC         OOOOOOOOOOOOOOOOOOO          SSSSSSSSSSSSSSSSSS          1111")
+  Program.Delay(100)
+  TextWindow.WriteLine("            CCCC                     OOOO           OOOO          SSSS                        1111")
+  Program.Delay(500)
+  TextWindow.WriteLine("            CCCC                     OOOO           OOOO          SSSS                        1111")
+  Program.Delay(100)
+  TextWindow.WriteLine("            CCCC                     OOOO           OOOO          SSSSSSSSSSSSSSSSSS          1111")
+  Program.Delay(1000)
+  TextWindow.WriteLine("            CCCC                     OOOO           OOOO                        SSSS          1111")
+  Program.Delay(5000)
+  TextWindow.WriteLine("            CCCC                     OOOO           OOOO                        SSSS   ....   1111")
+  Program.Delay(1000)
+  TextWindow.WriteLine("            CCCCCCCCCCCCCCCC         OOOOOOOOOOOOOOOOOOO          SSSSSSSSSSSSSSSSSS   ....   1111")
+  Program.Delay(1000)
+  TextWindow.WriteLine("            CCCCCCCCCCCCCCCC         OOOOOOOOOOOOOOOOOOO          SSSSSSSSSSSSSSSSSS   ....   1111")
+  Program.Delay(100)
+  If esenprob=1 then
+    TextWindow.BackgroundColor="darkred"
+    TextWindow.Clear()
+    Sound.Play("C:\Users\rich\Downloads\censor-beep-1sec-8112 (1).mp3")
+    TextWindow.WriteLine("COS BPaD Manager has experienced a problem.")
+    TextWindow.WriteLine("")
+    TextWindow.WriteLine(" |------------------|")
+    TextWindow.WriteLine(" |        /      B  |")
+    TextWindow.WriteLine(" |    X   |  M   A  |")
+    TextWindow.WriteLine(" |    X   |  Y   D  |")
+    TextWindow.WriteLine(" |        \      !  |")
+    TextWindow.WriteLine(" |------------------|")
+    TextWindow.WriteLine("  // Bob has died.")
+    TextWindow.WriteLine("")
+    TextWindow.WriteLine("Status:0xc000000f")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Info: An error occured Essential Program Download. ")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("If the problem persists, please contact your system administrator or computer manufacturer.")
+    TextWindow.WriteLine("Loader: "+(loader))
+    TextWindow.WriteLine(originalitycode)
+    TextWindow.WriteLine("")
+    TextWindow.WriteLine("BECFREY TECHNOLOGIES LTD.")
+    TextWindow.Writeline("You can use the console below, although most commands will not be functional in this state.")
+    For n = 1 To 1000
+      acknowledgement=TextWindow.Read()
+      If acknowledgement="Program.Directory" Then
+        progdir=Program.Directory
+        TextWindow.WriteLine(progdir)
+      elseif acknowledgement="Program.End" then
+        Program.End()
+      EndIf
+    EndFor
+  EndIf
+  TextWindow.WriteLine("                                                          Becfrey       Emulator       Small Basic")
+  TextWindow.WriteLine("LOADING Small Basic CLI language...")
+  Program.Delay(1000)
+  TextWindow.BackgroundColor="green"
+  TextWindow.WriteLine("COMPLETE")
+  TextWindow.BackgroundColor="black"
+  Program.Delay(1000)
+  Goto commandprompt
+EndWhile
+TextWindow.Clear()
+'command prompt
+commandprompt:
+Sound.Play(startupsound)
+TextWindow.Title="BECFREY COS.1 Command Prompt"
+If debugmode=0 Then
+  TextWindow.BackgroundColor="black"
+  TextWindow.Clear()
+  TextWindow.WriteLine("BECFREY COS.1 [version 0.1 test release]            |------------------|")
+  TextWindow.WriteLine("Microsoft Small Basic v1.3                          |        \         |")
+  TextWindow.WriteLine("© BECFREY TECHNLOGIES LTD                           |     -  |         |")
+  TextWindow.WriteLine("© Microsoft Corporation. All rights Reserved.       |     -  |         |")
+  TextWindow.WriteLine("Type 'Program.Help' to view a list of commands.     |        /         |")
+  TextWindow.WriteLine("                                                    |------------------|")
+ElseIf debugmode=1 then
+  TextWindow.BackgroundColor="black"
+  TextWindow.Clear()
+  TextWindow.WriteLine("BECFREY COS.1 [version 0.1 test release]            |------------------|")
+  TextWindow.WriteLine("Microsoft Small Basic v1.3                          |         ____     |")
+  TextWindow.WriteLine("© BECFREY TECHNLOGIES LTD                           |     -  |    |    |")
+  TextWindow.WriteLine("© Microsoft Corporation. All rights Reserved.       |     -  |____|    |")
+  TextWindow.WriteLine("Type 'Program.Help' to view a list of commands.     |                  |")
+  TextWindow.WriteLine("                                                    |------------------|")
+  TextWindow.BackgroundColor="darkred"
+  TextWindow.WriteLine("Debug mode active. to lock, type 'Program.DebugModeLock'. "+originalitycode)
+  TextWindow.BackgroundColor="black"
+EndIf
+For i = 1 To 100000000
+  TextWindow.Write(promptlogo)
+  prompt=Textwindow.Read()
+  If prompt="Program.Help" then
+    TextWindow.Clear()
+    TextWindow.WriteLine("the available commands for use with SBCLI language.")
+    TextWindow.WriteLine("Please note: The prompt is case-sensitive.")
+    TextWindow.WriteLine("This screen will revert to the prompt in 30 seconds.")
+    TextWindow.WriteLine("Red highlighting is meant to represent 'Not Recommended for Use'.")
+    TextWindow.WriteLine("-----------------------------------------------------------------")
+    Textwindow.WriteLine("Program (general tools)")
+    TextWindow.WriteLine("  .Help (shows this screen)")
+    TextWindow.WriteLine("  .Directory (gets the executing file)")
+    TextWindow.WriteLine("  .FileContents (gets items withing a directory)")
+    TextWindow.WriteLine("  .Clock (gets info about time at moment of program beginning)")
+    TextWindow.WriteLine("-----------------------------------------------------------------")
+    TextWindow.WriteLine("Textwindow (prompt return tool and text)")
+    TextWindow.WriteLine("  .Clear (clears the recent prompt history)")
+    TextWindow.WriteLine("  .Print (print text a specified amount of times)")
+    TextWindow.WriteLine("-----------------------------------------------------------------")
+    TextWindow.WriteLine("Bob (computer avatar)")
+    TextWindow.WriteLine("  .Happy (print bob being happy)")
+    TextWindow.WriteLine("  .Dead (print bob being dead)")
+    Textwindow.WriteLine("  .Sad (print bob being sad)")
+    TextWindow.WriteLine("  .Focused (print bob being focused)")
+    TextWindow.WriteLine("  .Angry (print bob being angry)")
+    TextWindow.WriteLine("  .Suprised (print bob being suprised)")
+    TextWindow.WriteLine("-----------------------------------------------------------------")
+    TextWindow.WriteLine("Sound (produce sound)")
+    TextWindow.WriteLine("  .MusicDIRPlay (plays music from a directory, wma/mp3 only)")
+    TextWindow.WriteLine("  .Stop (stops MusicDIRPlay")
+    TextWindow.WriteLine("  .Compose (plays music from a set of notes formatted in QBasic")
+    TextWindow.WriteLine("-----------------------------------------------------------------")
+    TextWindow.WriteLine("Games (Play games)")
+    TextWindow.WriteLine("  .ConquerorSimulator (ellipsoids fighting eachother)")
+    TextWindow.WriteLine("-----------------------------------------------------------------")
+    TextWindow.WriteLine("Interaction (art)")
+    TextWindow.WriteLine("  .EZShape (draw shapes on graphicswindow)")
+    TextWindow.WriteLine("  .PipeScreen (screensaver)")
+    TextWindow.WriteLine("-----------------------------------------------------------------")
+    TextWindow.WriteLine("Math (mathematics)")
+    TextWindow.WriteLine("  .BtoD (binary to decimal converter)")
+    TextWindow.WriteLine("-----------------------------------------------------------------")
+    TextWindow.WriteLine("Moderation and debugging commands are not shown.")
+    Program.Delay(30000)
+    Goto commandprompt
+  ElseIf prompt="Interaction.EZShape" Then
+    TextWindow.WriteLine("Welcome to EZShape. Type an ellipse, square or triangle.")
+    prompt2=Textwindow.Read()
+    If prompt2="ellipse" then
+      GraphicsWindow.DrawEllipse(250,175,150,300)
+    elseif prompt2="square" then
+      GraphicsWindow.DrawRectangle(250,175,150,150)
+    elseif prompt2="rectangle" then
+      GraphicsWindow.DrawRectangle(250,175,300,150)
+    EndIf
+  elseif prompt="Games.ConquerorSimulator" then
+    TextWindow.WriteLine("Welcome to Conqueror Simulator. to set the amount of invasion, type in a large integer. (default: 1000000000)")
+    conqsimtime=textwindow.ReadNumber()
+    For j = 1 to conqsimtime
+      x=math.GetRandomNumber(1600)
+      y=math.GetRandomNumber(1000)
+      width=Math.GetRandomNumber(150)
+      height=math.GetRandomNumber(300)
+      color=math.GetRandomNumber(10000)
+      If color=1 then
+        GraphicsWindow.BrushColor="red"
+      elseif color=2 then
+        GraphicsWindow.BrushColor="yellow"
+      elseif color=3 then
+        GraphicsWindow.BrushColor="blue"
+      elseif color=4 then
+        GraphicsWindow.BrushColor="green"
+      EndIf
+      GraphicsWindow.DrawEllipse(x,y,width,height)
+      GraphicsWindow.FillEllipse(x,y,width,height)
+    EndFor
+    GraphicsWindow.Clear()
+  elseif prompt="Program.Clock" then
+    date=clock.Date
+    time=clock.Time
+    ems=Clock.ElapsedMilliseconds
+    ms=clock.Millisecond
+    sec=clock.Second
+    min=clock.Minute
+    hr=clock.Hour
+    TextWindow.WriteLine("Current Clock statuses at execution:")
+    TextWindow.WriteLine(date)
+    TextWindow.WriteLine(time)
+    TextWindow.WriteLine(ems+" Elapsed Milliseconds since 1900")
+  elseif prompt="Interaction.PipeScreen" then
+    screensaverforeverset=1
+    Turtle.Speed=10
+    TextWindow.Write("Set text input: ")
+    pstext=textwindow.Read()
+    While screensaverforeverset=1
+      GraphicsWindow.BackgroundColor="black"
+      GraphicsWindow.PenColor=GraphicsWindow.GetRandomColor()
+      GraphicsWindow.BrushColor=GraphicsWindow.GetRandomColor()
+      GraphicsWindow.DrawText(xcoordrandom,ycoordrandom,pstext)
+      Turtle.Move(turtlemoverange)
+      Turtle.Turn(turtleturnrange)
+      tickset=timer.Interval
+      If tickset=1000 then
+        Turtle.MoveTo(1000,1000)
+      EndIf
+      xcoordrandom=math.GetRandomNumber(13000)
+      ycoordrandom=math.GetRandomNumber(7000)
+      turtlemoverange=math.GetRandomNumber(50)
+      turtleturnrange=math.GetRandomNumber(360)
+    endwhile
+  elseif prompt="Var.ScreenSaverForever=1" then
+    screensaverforeverset=1
+  elseif prompt="Var.ScreenSaverForever=0" then
+    screensaverforeverset=0
+  elseif prompt="Sound.MusicDIRPlay" then
+    TextWindow.WriteLine("Please type the DIR path for the sound, MP3, WAV or WMA.")
+    TextWindow.Write("DIR: ")
+    musicdir=TextWindow.Read()
+    Sound.Play(musicdir)
+  elseif prompt="Program.RSODShutDown" then
+    If debugmode=1 then
+      TextWindow.BackgroundColor="darkred"
+      TextWindow.Clear()
+      Sound.Play("C:\Users\rich\Downloads\censor-beep-1sec-8112 (1).mp3")
+      TextWindow.WriteLine("COS BPaD Manager has experienced a problem.")
+      TextWindow.WriteLine("")
+      TextWindow.WriteLine(" |------------------|")
+      TextWindow.WriteLine(" |        /      B  |")
+      TextWindow.WriteLine(" |    X   |  M   A  |")
+      TextWindow.WriteLine(" |    X   |  Y   D  |")
+      TextWindow.WriteLine(" |        \      !  |")
+      TextWindow.WriteLine(" |------------------|")
+      TextWindow.WriteLine("  // Bob has died.")
+      TextWindow.WriteLine("")
+      TextWindow.WriteLine("Status: 0xc000000f")
+      TextWindow.WriteLine(" ")
+      TextWindow.WriteLine(" ")
+      TextWindow.WriteLine("Info: Manual Crash. ")
+      TextWindow.WriteLine(" ")
+      TextWindow.WriteLine(" ")
+      TextWindow.WriteLine("If the problem persists, please contact your system administrator or computer manufacturer.")
+      TextWindow.WriteLine("Loader: "+(loader))
+      TextWindow.WriteLine(originalitycode)
+      TextWindow.WriteLine("")
+      TextWindow.WriteLine("BECFREY TECHNOLOGIES LTD.")
+      TextWindow.Writeline("You can use the console below, although most commands will not be functional in this state.")
+      For h = 1 to 1000
+        acknowledgement=TextWindow.Read()
+        If acknowledgement="Program.Directory`" Then
+          progdir=Program.Directory
+          TextWindow.WriteLine(progdir)
+        elseif acknowledgement="Program.End" then
+          Program.End()
+        EndIf
+      EndFor
+    Else
+      TextWindow.WriteLine("Debug Mode needs to be unlocked.")
+    EndIf
+  elseif prompt="Program.BSODShutDown" then
+    If debugmode=1 then
+      TextWindow.BackgroundColor="darkblue"
+      TextWindow.Clear()
+      Sound.Play("C:\Users\rich\Downloads\censor-beep-1sec-8112 (1).mp3")
+      TextWindow.WriteLine("COS BPaD Manager has experienced a problem.")
+      TextWindow.WriteLine("")
+      TextWindow.WriteLine(" |------------------|")
+      TextWindow.WriteLine(" |        /      B  |")
+      TextWindow.WriteLine(" |    X   |  M   A  |")
+      TextWindow.WriteLine(" |    X   |  Y   D  |")
+      TextWindow.WriteLine(" |        \      !  |")
+      TextWindow.WriteLine(" |------------------|")
+      TextWindow.WriteLine("  // Bob has died.")
+      TextWindow.WriteLine("")
+      TextWindow.WriteLine("Status: 0xc000000f")
+      TextWindow.WriteLine(" ")
+      TextWindow.WriteLine(" ")
+      TextWindow.WriteLine("Info: Manual Crash. ")
+      TextWindow.WriteLine(" ")
+      TextWindow.WriteLine(" ")
+      TextWindow.WriteLine("If the problem persists, please contact your system administrator or computer manufacturer.")
+      TextWindow.WriteLine("Loader: "+(loader))
+      TextWindow.WriteLine(originalitycode)
+      TextWindow.WriteLine("")
+      TextWindow.WriteLine("BECFREY TECHNOLOGIES LTD.")
+      TextWindow.Writeline("You can use the console below, although most commands will not be functional in this state.")
+      For l = 1 to 1000
+        acknowledgement=TextWindow.Read()
+        If acknowledgement="Program.Directory" Then
+          progdir=Program.Directory
+          TextWindow.WriteLine(progdir)
+        elseif acknowledgement="Program.End" then
+          Program.End()
+        EndIf
+      EndFor
+    Else
+      Textwindow.WriteLine("Debug Mode needs to be unlocked.")
+    EndIf
+  elseif prompt="TextWindow.Print" then
+    TextWindow.WriteLine("Type in the echo, then the times you want to repeat it for.")
+    echotype=TextWindow.Read()
+    echofor=textwindow.ReadNumber()
+    For g=1 to echofor
+      TextWindow.WriteLine(echotype)
+    EndFor
+  elseif prompt="Program.Directory" then
+    progdir=Program.Directory
+    TextWindow.WriteLine(progdir)
+  elseif prompt="Program.FileContents" then
+    TextWindow.WriteLine("Type the filepath to get the contents of the file.")
+    TextWindow.Write("file path: ")
+    filepath=TextWindow.Read()
+    filecont=File.ReadContents(filepath)
+    TextWindow.WriteLine(filecont)
+  elseif prompt="TextWindow.Clear" then
+    TextWindow.Clear()
+    Goto commandprompt
+  elseif prompt="Var.Info" then
+    TextWindow.WriteLine("Getting all variable info in program...")
+    Program.Delay(1000)
+    TextWindow.WriteLine(originalitycode)
+    TextWindow.WriteLine(bootsequence)
+    TextWindow.WriteLine(configscreen)
+    TextWindow.WriteLine(login)
+    TextWindow.WriteLine(esenprob)
+    TextWindow.WriteLine(initprob)
+    TextWindow.WriteLine(screensaverforeverset)
+    TextWindow.WriteLine(promptlogo)
+    TextWindow.WriteLine(progdir)
+    TextWindow.WriteLine(corecpass)
+    TextWindow.WriteLine(corecuser)
+    TextWindow.WriteLine(date)
+    TextWindow.WriteLine(ems)
+    TextWindow.WriteLine(time)
+    TextWindow.WriteLine(prompt2)
+    TextWindow.WriteLine(loader)
+    TextWindow.WriteLine("Some variables will not be shown until they are interacted.")
+  elseif prompt="Bob.Happy" then
+    TextWindow.WriteLine(" |------------------|")
+    TextWindow.WriteLine(" |        \         |")
+    TextWindow.WriteLine(" |     -  |         |")
+    TextWindow.WriteLine(" |     -  |         |")
+    TextWindow.WriteLine(" |        /         |")
+    TextWindow.WriteLine(" |------------------|")
+    TextWindow.WriteLine("  // Bob is happy.")
+  elseif prompt="Bob.Dead" then
+    TextWindow.WriteLine(" |------------------|")
+    TextWindow.WriteLine(" |        /         |")
+    TextWindow.WriteLine(" |    X   |         |")
+    TextWindow.WriteLine(" |    X   |         |")
+    TextWindow.WriteLine(" |        \         |")
+    TextWindow.WriteLine(" |------------------|")
+    TextWindow.WriteLine("  // Bob has died.")
+  elseif prompt="Bob.Sad" then
+    TextWindow.WriteLine(" |------------------|")
+    TextWindow.WriteLine(" |        /         |")
+    TextWindow.WriteLine(" |    )-  |         |")
+    TextWindow.WriteLine(" |    )-  |         |")
+    TextWindow.WriteLine(" |        \         |")
+    TextWindow.WriteLine(" |------------------|")
+    TextWindow.WriteLine("  // Bob is sad.")
+  elseif prompt="Bob.Focused" then
+    TextWindow.WriteLine(" |------------------|")
+    TextWindow.WriteLine(" |        |         |")
+    TextWindow.WriteLine(" |     -  |         |")
+    TextWindow.WriteLine(" |     -  |         |")
+    TextWindow.WriteLine(" |        |         |")
+    TextWindow.WriteLine(" |------------------|")
+    TextWindow.WriteLine("  // Bob is focused.")
+  elseif prompt="Bob.Angry" then
+    TextWindow.WriteLine(" |------------------|")
+    TextWindow.WriteLine(" |        /         |")
+    TextWindow.WriteLine(" |  \  -  |         |")
+    TextWindow.WriteLine(" |  /  -  |         |")
+    TextWindow.WriteLine(" |        \         |")
+    TextWindow.WriteLine(" |------------------|")
+    TextWindow.WriteLine("  // Bob is angry.")
+  Elseif prompt="Bob.Suprised" then
+    TextWindow.WriteLine(" |------------------|")
+    TextWindow.WriteLine(" |         ____     |")
+    TextWindow.WriteLine(" |     -  |    |    |")
+    TextWindow.WriteLine(" |     -  |____|    |")
+    TextWindow.WriteLine(" |                  |")
+    TextWindow.WriteLine(" |------------------|")
+    TextWindow.WriteLine("  // Bob is suprised.")
+  Elseif prompt="Sound.Stop" then
+    Sound.Stop(musicdir)
+    TextWindow.WriteLine("Sound successfully stopped.")
+  Elseif prompt="Sound.Compose" then
+    TextWindow.WriteLine("Type in music notes from format")
+    TextWindow.Write(promptlogo)
+    musicalnotes=Textwindow.Read()
+    Sound.PlayMusic(musicalnotes)
+  Elseif prompt="Program.DebugModeUnlock" then
+    TextWindow.BackgroundColor="darkred"
+    Sound.Play(operationoise)
+    TextWindow.WriteLine("Bricking and Overrides Unlocked.")
+    TextWindow.WriteLine(originalitycode)
+    TextWindow.BackgroundColor="black"
+    debugmode=1
+  elseif prompt="Program.DebugModeLock" then
+    TextWindow.BackgroundColor="darkgreen"
+    Sound.Play(operationoise)
+    TextWindow.WriteLine("Bricking and Overrides locked.")
+    TextWindow.WriteLine(originalitycode)
+    TextWindow.BackgroundColor="black"
+    debugmode=0
+  elseif prompt="Math.BtoD" then
+    'Binary to Decimal by Amir Rke
+    start:
+    TextWindow.Title = "Binary to Decimal To Binary Converter [Amir Rke]"
+    TextWindow.Write("Enter Your Choice: [1 for binary to decimal] Or [2 for decimal to binary] Or [BtoD.End to exit] ")
+    choice = TextWindow.Read()
+    If choice = 1 Then
+      Goto start1
+    ElseIf choice = 2 Then
+      Goto start2
+    elseif choice = "BtoD.End" then
+      Goto commandprompt
+    EndIf
+    start1:
+    TextWindow.Write("Convert Binary To Decimal..."+Text.GetCharacter(10)+"Enter Binary Value : ")
+    binary = TextWindow.ReadNumber()
+    For bit_Count = 1 To Text.GetLength(binary)
+      binaryNum = binaryNum + Text.GetSubText(binary,Text.GetLength(binary)-bit_Count+1,1)*Math.Power(2,bit_Count-1)
+    EndFor
+    TextWindow.ForegroundColor = "red"
+    TextWindow.Write("Decimal form : "+binaryNum+Text.GetCharacter(10))
+    TextWindow.ForegroundColor = "white"
+    binaryNum = ""
+    Goto start
+    start2:
+    count = 0
+    Bits = ""
+    TextWindow.Write(Text.GetCharacter(10)+"Convert Decimal To Binary..."+Text.GetCharacter(10)+"Enter Decimal Value : ")
+    N = TextWindow.ReadNumber()
+    temp = N
+    While N > 0
+      Bits[count] = Math.Remainder(N,2)
+      N = Math.Floor(N / 2)
+      count = count + 1
+    EndWhile
+    TextWindow.ForegroundColor = "Green"
+    TextWindow.Write("Binary Form ")
+    For i = Array.GetItemCount(Bits) To 0 step - 1
+      TextWindow.Write(Bits[i])
+    EndFor
+    TextWindow.Write(Text.GetCharacter(10))
+    TextWindow.ForegroundColor = "White"
+    Goto start
+  Elseif prompt="Program.Uninstall" then
+    If debugmode=1 then
+    TextWindow.BackgroundColor="red"
+    TextWindow.WriteLine("You have typed in the option to uninstall.")
+    TextWindow.WriteLine("PLEASE TYPE WORD 1 IN MANUAL.")
+    TextWindow.Write(promptlogo)
+    TextWindow.Write("
+    
+  Else
+    TextWindow.BackgroundColor="darkred"
+    TextWindow.WriteLine("PARSING LINE ERROR: "+"'"+prompt+"'"+" Is not a command call. "+originalitycode)
+    TextWindow.BackgroundColor="black"
+  EndIf
+EndFor
